@@ -7,7 +7,7 @@ const nameText = document.getElementById("name");
 document.getElementById("loginBtn").onclick = () => {
 
     const CLIENT_ID =
-        "YOUR_CLIENT_ID";
+        "793965405144-a1akoa0tfq4n75grpu1hnrfujkaldaht.apps.googleusercontent.com";
 
     const REDIRECT_URI =
         "https://zvriat.github.io/Everythin/callback.html";
