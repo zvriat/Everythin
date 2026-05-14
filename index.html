@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login System</title>
 </head>
 <body>
 
-<h1>Google OAuth Login</h1>
+<h1>My Website</h1>
 
-<button id="loginBtn">
-    Login with Google
-</button>
+<!-- LOGIN UI -->
+<div id="loginSection">
+    <button id="loginBtn">Log in with Google</button>
+</div>
 
-<script src="script.js"></script>
+<!-- PROFILE UI -->
+<div id="profileSection" style="display:none;">
+    <img id="avatar" width="80" style="border-radius:50%">
+    <h3 id="name"></h3>
+    <button id="logoutBtn">Logout</button>
+</div>
+
+<script src="./script.js"></script>
 
 </body>
 </html>
