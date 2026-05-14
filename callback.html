@@ -1,23 +1,42 @@
-<script>
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Logging in...</h2>
 
+<script>
 const hash = window.location.hash.substring(1);
 const params = new URLSearchParams(hash);
 const token = params.get("access_token");
 
-fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-    headers: {
-        Authorization: "Bearer " + token
-    }
-})
-.then(res => res.json())
-.then(user => {
+if (!token) {
+    document.body.innerHTML = "Login failed";
+} else {
 
-    localStorage.setItem("google_user", JSON.stringify(user));
+    fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    })
+    .then(res => res.json())
+    .then(user => {
 
-    // go back to main page
-    window.location.href =
-        "https://zvriat.github.io/Everythin/";
+        // Convert user to string
+        const userData = encodeURIComponent(JSON.stringify(user));
 
-});
+        // 🍪 SET COOKIE (7 days)
+        document.cookie =
+            "google_user=" + userData +
+            "; path=/" +
+            "; max-age=" + (60 * 60 * 24 * 7);
 
+        // redirect back
+        window.location.href =
+            "https://zvriat.github.io/Everythin/";
+
+    });
+
+}
 </script>
+
+</body>
+</html>
