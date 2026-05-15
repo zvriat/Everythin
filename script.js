@@ -1,72 +1,119 @@
-const loginSection = document.getElementById("loginSection");
-const profileSection = document.getElementById("profileSection");
+// =============================
+// SUPABASE CONFIG
+// =============================
 
-const avatar = document.getElementById("avatar");
-const nameText = document.getElementById("name");
+const SUPABASE_URL =
+    "sb_publishable_3nYQcrIOXSsudH_QF8457Q_wlCixDtx";
 
-document.getElementById("loginBtn").onclick = () => {
+const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrb2FtaWxsc2xhaG5wZXp6d2tyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NTIzNjIsImV4cCI6MjA5NDQyODM2Mn0.k4wH2qThA_K2DaIukx--7VydjGolQPYVZzR5mwVTfXw";
 
-    const CLIENT_ID =
-        "793965405144-a1akoa0tfq4n75grpu1hnrfujkaldaht.apps.googleusercontent.com";
+// IMPORTANT:
+// DON'T NAME IT "supabase"
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
-    const REDIRECT_URI =
-        "https://zvriat.github.io/Everythin/callback.html";
+// =============================
+// HTML ELEMENTS
+// =============================
 
-    const scope = encodeURIComponent("openid email profile");
+const loginBtn =
+    document.getElementById("loginBtn");
 
-    window.location.href =
-        "https://accounts.google.com/o/oauth2/v2/auth" +
-        "?client_id=" + CLIENT_ID +
-        "&redirect_uri=" + encodeURIComponent(REDIRECT_URI) +
-        "&response_type=token" +
-        "&scope=" + scope;
+const profile =
+    document.getElementById("profile");
+
+const avatar =
+    document.getElementById("avatar");
+
+const nameText =
+    document.getElementById("name");
+
+const emailText =
+    document.getElementById("email");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+// =============================
+// LOGIN
+// =============================
+
+loginBtn.onclick = async () => {
+
+    await supabaseClient.auth.signInWithOAuth({
+        provider: "google"
+    });
+
 };
 
-// 🍪 READ COOKIE FUNCTION
-function getCookie(name) {
-    const value =
-        "; " + document.cookie;
+// =============================
+// LOAD USER
+// =============================
 
-    const parts =
-        value.split("; " + name + "=");
+async function loadUser() {
 
-    if (parts.length === 2) {
-        return parts.pop().split(";").shift();
-    }
-    return null;
-}
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
 
-// LOAD USER FROM COOKIE
-function loadUser() {
+    console.log(session);
 
-    const cookie = getCookie("google_user");
+    if (session) {
 
-    if (cookie) {
+        const user = session.user;
 
-        const user = JSON.parse(decodeURIComponent(cookie));
+        loginBtn.style.display = "none";
 
-        loginSection.style.display = "none";
-        profileSection.style.display = "block";
+        profile.style.display = "block";
 
-        avatar.src = user.picture;
-        nameText.innerText = user.name;
+        avatar.src =
+            user.user_metadata.avatar_url;
+
+        nameText.innerText =
+            user.user_metadata.full_name;
+
+        emailText.innerText =
+            user.email;
 
     } else {
 
-        loginSection.style.display = "block";
-        profileSection.style.display = "none";
+        loginBtn.style.display =
+            "inline-block";
+
+        profile.style.display =
+            "none";
 
     }
+
 }
 
+// =============================
 // LOGOUT
-document.getElementById("logoutBtn").onclick = () => {
+// =============================
 
-    document.cookie =
-        "google_user=; path=/; max-age=0";
+logoutBtn.onclick = async () => {
+
+    await supabaseClient.auth.signOut();
 
     loadUser();
 
 };
+
+async function loadPage(page) {
+
+    const response = await fetch(page);
+
+    const html = await response.text();
+
+    document.getElementById("contentArea").innerHTML = html;
+}
+
+/* DEFAULT PAGE */
+loadPage("pages/notes.html");
 
 loadUser();

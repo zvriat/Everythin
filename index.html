@@ -3,22 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <title>Login System</title>
 </head>
 <body>
 
-<h1>My Website</h1>
+<!-- SIDEBAR -->
+<div class="sidebar">
 
-<!-- LOGIN UI -->
-<div id="loginSection">
-    <button id="loginBtn">Log in with Google</button>
+    <button onclick="loadPage('pages/notes.html')">
+        📝 Notes
+    </button>
+
+    <button onclick="loadPage('pages/settings.html')">
+        ⚙ Settings
+    </button>
+
 </div>
 
-<!-- PROFILE UI -->
-<div id="profileSection" style="display:none;">
-    <img id="avatar" width="80" style="border-radius:50%">
-    <h3 id="name"></h3>
-    <button id="logoutBtn">Logout</button>
+<!-- MAIN CONTENT -->
+<div class="mainContent">
+
+    <!-- LOGIN -->
+    <div id="loginSection">
+        <button id="loginBtn">
+            Log in with Google
+        </button>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="profileSection">
+
+        <img id="avatar" width="100">
+
+        <h2 id="name"></h2>
+
+        <p id="email"></p>
+
+        <button id="logoutBtn">
+            Logout
+        </button>
+
+    </div>
+
+
+    </div>
+
+    <!-- LOADED HTML -->
+    <div id="contentArea"></div>
+
 </div>
 
 <script src="script.js"></script>
