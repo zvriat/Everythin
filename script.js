@@ -33,9 +33,6 @@ async function initAuth() {
     const { data: { session }, error } =
         await supabaseClient.auth.getSession();
 
-    console.log("INIT SESSION:", session);
-    console.log("INIT ERROR:", error);
-
     loadUser();
 }
 
@@ -47,7 +44,6 @@ initAuth();
 
 supabaseClient.auth.onAuthStateChange(
     (event, session) => {
-        console.log("AUTH EVENT:", event, session);
         loadUser();
     }
 );
@@ -65,9 +61,6 @@ loginBtn.onclick = async () => {
                 redirectTo: "http://127.0.0.1:5500/"
             }
         });
-
-    console.log("LOGIN DATA:", data);
-    console.log("LOGIN ERROR:", error);
 };
 
 // =============================
@@ -124,12 +117,12 @@ async function loadPage(page) {
 
         document.getElementById("contentArea").innerHTML = html;
 
-    } catch (err) {
-        console.error(err);
-        document.getElementById("contentArea").innerHTML =
-            "<h3>Page failed to load</h3>";
     }
-}
+    finally{
+
+    }
+ }
+
 
 // Load default page
 loadPage("pages/notes.html");
