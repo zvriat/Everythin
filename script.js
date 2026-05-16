@@ -58,7 +58,7 @@ loginBtn.onclick = async () => {
         await supabaseClient.auth.signInWithOAuth({
             provider: "google",
             options: {
-                redirectTo: "http://127.0.0.1:5500/"
+                redirectTo: "https://zvriat.github.io/Everythin/"
             }
         });
 };
