@@ -76,7 +76,7 @@ async function loadUser() {
 
     if (!session || !session.user) {
         loginSection.style.display = "block";
-        profileSection.style.display = "none";
+        profileSection.style.display = "flex";
         return;
     }
 
