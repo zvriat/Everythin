@@ -14,6 +14,7 @@ const supabaseClient =
 
 const loginSection = document.getElementById("loginSection");
 const profileSection = document.getElementById("profileSection");
+const loginPanel = document.getElementById("loginPanel");
 
 const loginBtn = document.getElementById("loginBtn");
 
@@ -76,7 +77,8 @@ async function loadUser() {
 
     if (!session || !session.user) {
         loginSection.style.display = "block";
-        profileSection.style.display = "flex";
+        profileSection.style.display = "none";
+        loginPanel.style.display = "flex";
         return;
     }
 
@@ -85,6 +87,7 @@ async function loadUser() {
 
     loginSection.style.display = "none";
     profileSection.style.display = "block";
+    loginPanel.style.display = "flex";
 
     avatar.src = meta.avatar_url || "";
 
